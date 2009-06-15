@@ -23,7 +23,7 @@ def r1(elemento):
         return elemento
 
 DIR = [(1,0),(0,1),(-1,0),(0,-1)]
-PASSO = 25
+PASSO = 2
 MARGEM = 25
 class Caminho(object):
     def __init__(self):
@@ -83,14 +83,14 @@ def display(axiom, i):
         if elem == "-":
             caminho.esquerda() 
     #caminho.imprime()
-    scene = Scene('large_test_%d.png'%i,height=(caminho.dim_y()+2*MARGEM),width=(caminho.dim_x()+2*MARGEM))
+    scene = Scene('large_test_%03d.png'%i,height=(caminho.dim_y()+2*MARGEM),width=(caminho.dim_x()+2*MARGEM))
     while(caminho.has_more()):
         scene.add(caminho.linha())
     scene.write_svg()
     #scene.display()
 
 
-for i in range(11):
+for i in range(18):
     saida = []
     for elem in axiom:
         saida += r1(elem)
