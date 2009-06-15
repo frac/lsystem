@@ -23,7 +23,7 @@ def r1(elemento):
         return elemento
 
 DIR = [(1,0),(0,1),(-1,0),(0,-1)]
-PASSO = 2
+PASSO = 1
 MARGEM = 25
 class Caminho(object):
     def __init__(self):
@@ -90,7 +90,7 @@ def display(axiom, i):
     #scene.display()
 
 
-for i in range(18):
+for i in range(20):
     saida = []
     for elem in axiom:
         saida += r1(elem)
