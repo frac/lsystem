@@ -23,7 +23,7 @@ def r1(elemento):
         return elemento
 
 DIR = [(1,0),(0,1),(-1,0),(0,-1)]
-PASSO = 1
+PASSO = 3
 MARGEM = 25
 class Caminho(object):
     def __init__(self):
@@ -89,8 +89,31 @@ def display(axiom, i):
     scene.write_svg()
     #scene.display()
 
+def gera_video(axiom):
+    caminho = Caminho()
+    for elem in axiom:
+        if elem == "F":
+            caminho.traco()
+        if elem == "+":
+            caminho.direita() 
+        if elem == "-":
+            caminho.esquerda() 
+    #caminho.imprime()
+    i = 1
+    count = 1
+    scene = Scene('foo',height=(caminho.dim_y()+2*MARGEM),width=(caminho.dim_x()+2*MARGEM))
+    while(caminho.has_more()):
+        scene.add(caminho.linha())
+        if count % i == 0:
+            scene.write_svg("video_frame%05d.jpg"% i)
+            i += 1
+            count = 1
+        else:
+            count += 1
+    #scene.display()
 
-for i in range(20):
+
+for i in range(21):
     saida = []
     for elem in axiom:
         saida += r1(elem)
@@ -99,4 +122,4 @@ for i in range(20):
     #print axiom
     display(axiom, i)
 
-        
+gera_video(axiom)            

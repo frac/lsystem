@@ -29,10 +29,11 @@ class Scene:
         return var
 
     def write_svg(self,filename=None):
+        filename = filename or self.name
         for line in self.items:
             line.imprimir(self.draw)
 
-        self.im.save(self.name, "PNG")
+        self.im.save(filename, 'JPEG')
 
         return
 
