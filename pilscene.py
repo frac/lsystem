@@ -1,5 +1,7 @@
 import os
-import Image, ImageDraw
+import Image
+#import ImageDraw as draw
+import aggdraw 
 
 display_prog = 'display' # Command to execute to display images.
 
@@ -11,7 +13,7 @@ class Scene:
         self.height = height
         self.width = width
         self.im = Image.new("RGB", (self.width, self.height), "white")
-        self.draw = ImageDraw.Draw(self.im)
+        self.draw = aggdraw.Draw(self.im)
 
 
         return
@@ -29,11 +31,12 @@ class Scene:
         return var
 
     def write_svg(self,filename=None):
+
         filename = filename or self.name
         for line in self.items:
             line.imprimir(self.draw)
-
-        self.im.save(filename, 'JPEG')
+        self.draw.flush()
+        self.im.save(filename, 'PNG')
 
         return
 
@@ -49,7 +52,9 @@ class Line:
         return
 
     def imprimir(self, draw):
-        draw.line((self.start[0],self.start[1],self.end[0],self.end[1]), 128)
+        pen = aggdraw.Pen('#112288', 0.5, 100)
+
+        draw.line((self.start[0],self.start[1],self.end[0],self.end[1]), pen)
         
     def strarray(self):
         return ["  <line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" />\n" %\
