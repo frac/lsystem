@@ -22,9 +22,15 @@ def r1(elemento):
     else:
         return elemento
 
+##
+##Constants
+##
+
 DIR = [(1,0),(0,1),(-1,0),(0,-1)]
-PASSO = 3
-MARGEM = 25
+STEP = 5
+MARGIN = 25
+NUM_INTERACTIONS = 15 #beware of larger values for this
+
 class Caminho(object):
     def __init__(self):
         self.dir = 0
@@ -36,8 +42,8 @@ class Caminho(object):
         self.pos_x = 0
         self.pos_y = 0
     def traco(self):
-        pos_x = self.pos_x + (DIR[self.dir][0]*PASSO)
-        pos_y = self.pos_y + (DIR[self.dir][1]*PASSO)
+        pos_x = self.pos_x + (DIR[self.dir][0]*STEP)
+        pos_y = self.pos_y + (DIR[self.dir][1]*STEP)
         self.tracos.append( ((self.pos_x, self.pos_y),(pos_x,pos_y)) )
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -66,8 +72,8 @@ class Caminho(object):
     def linha(self):
         t = self.tracos.pop(0)
         #print "adding line ", t
-        #print (t[0][0]-self.min_x+MARGEM,t[0][1]-self.min_y+MARGEM),(t[1][0]-self.min_x+MARGEM,t[1][1]-self.min_y+MARGEM)
-        return Line((t[0][0]-self.min_x+MARGEM,t[0][1]-self.min_y+MARGEM),(t[1][0]-self.min_x+MARGEM,t[1][1]-self.min_y+MARGEM))
+        #print (t[0][0]-self.min_x+MARGIN,t[0][1]-self.min_y+MARGIN),(t[1][0]-self.min_x+MARGIN,t[1][1]-self.min_y+MARGIN)
+        return Line((t[0][0]-self.min_x+MARGIN,t[0][1]-self.min_y+MARGIN),(t[1][0]-self.min_x+MARGIN,t[1][1]-self.min_y+MARGIN))
     def has_more(self):
         return len(self.tracos) >= 1
         
@@ -83,7 +89,7 @@ def display(axiom, i):
         if elem == "-":
             caminho.esquerda() 
     #caminho.imprime()
-    scene = Scene('large_test_%03d.png'%i,height=(caminho.dim_y()+2*MARGEM),width=(caminho.dim_x()+2*MARGEM))
+    scene = Scene('large_test_%03d.png'%i,height=(caminho.dim_y()+2*MARGIN),width=(caminho.dim_x()+2*MARGIN))
     while(caminho.has_more()):
         scene.add(caminho.linha())
     scene.write_svg()
@@ -101,7 +107,7 @@ def gera_video(axiom):
     #caminho.imprime()
     i = 1
     count = 1
-    scene = Scene('foo',height=(caminho.dim_y()+2*MARGEM),width=(caminho.dim_x()+2*MARGEM))
+    scene = Scene('foo',height=(caminho.dim_y()+2*MARGIN),width=(caminho.dim_x()+2*MARGIN))
     while(caminho.has_more()):
         scene.add(caminho.linha())
         if count % i == 0:
@@ -113,7 +119,8 @@ def gera_video(axiom):
     #scene.display()
 
 
-for i in range(21):
+
+for i in range(NUM_INTERACTIONS):
     saida = []
     for elem in axiom:
         saida += r1(elem)
